@@ -11,9 +11,23 @@ const (
 	Aspirin
 	Ibuprofen
 	Paracetamol
-	NewPill
 	Acetaminophen = Paracetamol // Acetaminophen is the same as Paracetamol
 )
+
+// Implements the Stringer interface
+func (p Pill) String() string {
+	switch p {
+	case Placebo:
+		return "Placebo"
+	case Aspirin:
+		return "Aspirin"
+	case Ibuprofen:
+		return "Ibuprofen"
+	case Paracetamol: // == Acetaminophen
+		return "Paracetamol"
+	}
+	return fmt.Sprintf("Pill(%d)", p)
+}
 
 func main() {
 	var p Pill = Ibuprofen
