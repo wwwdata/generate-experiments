@@ -19,6 +19,7 @@ func main() {
 			Pink Unicorn = iota
 			Fluffy
 			Rainbow
+			MagicNumber int = 42
 		)
 	`
 
@@ -39,11 +40,26 @@ func main() {
 			return true
 		}
 
+		// current type of the const we are iterating over
+		typ := ""
+
 		for _, spec := range decl.Specs {
 			vspec := spec.(*ast.ValueSpec) // must work, because we are in a const
 
-			// let's see if we have a type for the const
-			fmt.Println("type: ", vspec.Type)
+			// we have seen that the first const had the type and the others are untyped, but we will assume that they
+			// all have the same type, like in the Stringer example. So we will need to remember it and check if a new
+			// type occurs.
+			if vspec.Type != nil {
+				ident, ok := vspec.Type.(*ast.Ident)
+				if !ok {
+					continue
+				}
+				typ = ident.Name
+			}
+
+			if typ != typeName {
+				continue
+			}
 
 			// outputs one line of code
 			fmt.Println(vspec.Names)
