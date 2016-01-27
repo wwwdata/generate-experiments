@@ -61,13 +61,13 @@ func main() {
 				continue
 			}
 
-			// outputs one line of code
-			fmt.Println(vspec.Names)
+			for _, name := range vspec.Names {
+				values = append(values, name.Name)
+			}
 		}
 
 		return false
 	})
 
-	fmt.Println("just to compile it")
-	fmt.Println(values, typeName)
+	fmt.Println("all values", values, "type", typeName)
 }
