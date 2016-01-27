@@ -5,6 +5,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"go/types"
 )
 
 // how to parse consts of a type?
@@ -23,7 +24,17 @@ func main() {
 		)
 	`
 
-	file, err := parser.ParseFile(token.NewFileSet(), "unicorns.go", src, 0)
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, "unicorns.go", src, 0)
+	if err != nil {
+		panic(err)
+	}
+
+	// type-check for the package
+	defs := make(map[*ast.Ident]types.Object)
+	config := types.Config{}
+	info := &types.Info{Defs: defs}
+	_, err = config.Check("unicorn.go", fset, []*ast.File{file}, info)
 	if err != nil {
 		panic(err)
 	}
@@ -66,7 +77,6 @@ func main() {
 			}
 
 			// hm cool, but how do we get the actual integer number out of them?
-
 		}
 
 		return false
