@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go/ast"
 	"go/parser"
 	"go/token"
 )
@@ -26,4 +27,16 @@ func main() {
 	for _, i := range file.Comments {
 		fmt.Println(i.Text())
 	}
+
+	// Parse very small example go program and inspect all the nodes
+	fset := token.NewFileSet()
+	src := `
+	package foo
+	const c = 1.0
+	`
+	f, err := parser.ParseFile(fset, "something.go", src, 0)
+	ast.Inspect(f, func(n ast.Node) bool {
+		fmt.Printf("%#v\n", n)
+		return true
+	})
 }
