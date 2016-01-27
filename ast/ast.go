@@ -18,7 +18,7 @@ func main() {
 
 		const (
 			Pink Unicorn = iota
-			Fluffy, Puffy
+			Fluffy
 			Rainbow
 			MagicNumber int = 42
 		)
@@ -74,9 +74,15 @@ func main() {
 
 			for _, name := range vspec.Names {
 				values = append(values, name.Name)
-			}
+				// hm cool, but how do we get the actual integer number out of them?
+				// now we have defs and can extract the actual values out of there
+				obj, ok := defs[name]
+				if !ok {
+					fmt.Println("no value for constant ", name)
+				}
 
-			// hm cool, but how do we get the actual integer number out of them?
+				fmt.Printf("value %s %d\n", name, obj.(*types.Const).Val())
+			}
 		}
 
 		return false
