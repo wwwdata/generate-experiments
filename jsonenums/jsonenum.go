@@ -8,9 +8,29 @@ import (
 // Tshirt that can be bought
 type Tshirt struct {
 	ID    string
-	Size  string // needs to validate against S, L, M, XL, XXL
-	Color string // needs to validate against Red, Green, Blue
+	Size  ShirtSize
+	Color Color
 }
+
+//go:generate jsonenums -type=ShirtSize
+type ShirtSize int
+
+const (
+	S ShirtSize = iota
+	M
+	L
+	XL
+	XXL
+)
+
+//go:generate jsonenums -type=Color
+type Color int
+
+const (
+	Red Color = iota
+	Green
+	Blue
+)
 
 func main() {
 	var s Tshirt
@@ -20,23 +40,5 @@ func main() {
 		panic(err)
 	}
 
-	// manually calling some sort of validator that needs to be maintained extra
-	err = validate(s)
-	if err != nil {
-		panic(err)
-	}
-
 	fmt.Printf("%#v", s)
-}
-
-func validate(t Tshirt) error {
-	if t.Size != "S" && t.Size != "L" && t.Size != "M" && t.Size != "XL" && t.Size != "XXL" {
-		return fmt.Errorf("Invalid T-Shirt size %s", t.Size)
-	}
-
-	if t.Color != "Red" && t.Color != "Green" && t.Color != "Blue" {
-		return fmt.Errorf("Invalid T-shirt color %s", t.Color)
-	}
-
-	return nil
 }
