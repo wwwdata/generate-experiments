@@ -34,11 +34,29 @@ const (
 
 func main() {
 	var s Tshirt
-	input := []byte(`{"ID": "1234","Size":"Blubb","Color":"Rainbow"}`)
+	input := []byte(`{"ID": "1234","Size":"XL","Color":"Red"}`)
 	err := json.Unmarshal(input, &s)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("%#v", s)
+	fmt.Printf("%#v\n\n", s)
+	fmt.Printf("as string %s\n\n", s)
+
+	// marshaling works as well
+	// awesome, we now have static compile time checked types!
+	n :=
+		Tshirt{
+			ID:    "1337",
+			Size:  XXL,
+			Color: Blue,
+		}
+
+	json, err := json.Marshal(n)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(json))
+
 }
