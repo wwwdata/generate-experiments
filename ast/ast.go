@@ -17,7 +17,7 @@ func main() {
 
 		const (
 			Pink Unicorn = iota
-			Fluffy
+			Fluffy, Puffy
 			Rainbow
 			MagicNumber int = 42
 		)
