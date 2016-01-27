@@ -64,6 +64,9 @@ func main() {
 			for _, name := range vspec.Names {
 				values = append(values, name.Name)
 			}
+
+			// hm cool, but how do we get the actual integer number out of them?
+
 		}
 
 		return false
